@@ -11,7 +11,7 @@ template <typename T>                                                         \
   class TestFixtureName : public T, public ::testing::Test {                  \
 };                                                                            \
                                                                               \
-typedef ::testing::Types<AuglyMsgHandler, MsgHandler> TestTargets;           \
+typedef ::testing::Types<Before, After> TestTargets;                          \
 TYPED_TEST_CASE(TestFixtureName, TestTargets);
 
 

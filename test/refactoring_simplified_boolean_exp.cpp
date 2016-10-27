@@ -9,7 +9,7 @@ struct Msg {
 
 #define S1AP_INIT_CTXT_SETUP 0x33
 
-struct AuglyMsgHandler {
+struct Before {
     bool is_s1_ctxt_setup_msg(const Msg &msg) const {
         if (msg.type == S1AP_INIT_CTXT_SETUP) {
             return true;
@@ -21,7 +21,7 @@ struct AuglyMsgHandler {
 
 /*-----------------------------------------------------------*/
 
-struct MsgHandler {
+struct After {
     bool is_s1_ctxt_setup_msg(const Msg &msg) const {
         //????????????
         return false;
