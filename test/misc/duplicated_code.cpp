@@ -50,8 +50,11 @@ struct After {
 
 ________________________________REFACTORING_BE_TESTED_BY(duplicated_code_test)
 
+#if 0
 
 TYPED_TEST(duplicated_code_test, should_able_to_return_true__on_s1_msg) {
     Msg msg = {S1AP_INIT_CTXT_SETUP};
     ASSERT_TRUE(this->foo(msg));
 }
+
+#endif

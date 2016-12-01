@@ -14,7 +14,7 @@ ________________________________REFACTORING_TARGET_AS_BELLOW
         int priority;
         int a;
         int b;
-        bool isBroadcastMsg;
+        int broadcastMsgFlag;
         char c;
     };
 
@@ -29,10 +29,8 @@ ________________________________REFACTORING_TARGET_AS_BELLOW
     #define EVENT_A 0x01
     #define EVENT_B 0x02
 
-    void forwardMsgToPeer(void* buf, size_t len) {
-        cout << "forwarding message" << endl;
-    }
-
+    #define DIGIT_1 1
+    #define DIGIT_0 0
 /*-----------------------------------------------------------*/
     struct Before {
 
@@ -56,32 +54,44 @@ ________________________________REFACTORING_TARGET_AS_BELLOW
         }
 
         bool onMsgA(void* buf, size_t len) const {
-            cout << "onMsgA: enter" << endl;
+            cout << "msg: enter" << endl;
             if (buf == nullptr || len < sizeof(MsgA)) {
                 cout << "invalid input message" << endl;
                 return false;
             }
 
             MsgA* msg = (MsgA*)buf;
-            if (msg->isBroadcastMsg && (msg->priority < 5 && msg->priority != 0)) {
-                cout << "drop low priority broadcast msg" << endl;
+
+            //优先级为0 表示优先级未指定 且为广播消息 丢弃消息
+            //优先级为1 表示最低优先级 且为广播消息 丢弃消息
+            if (msg->broadcastMsgFlag == 1 && (msg->priority == DIGIT_1 || msg->priority == DIGIT_0)) {
+                cout << "drop low priority broadcast msg begin" << endl;
+                cout << msg->eventId << endl;
+                cout << msg->priority << endl;
+                cout << "drop low priority broadcast msg end" << endl;
                 return false;
             }
 
-            forwardMsgToPeer(msg, sizeof(msg));
+            cout << "forwarding message to peer begin" << endl;
+            cout << len << endl;
+            cout << "forwarding message to peer end" << endl;
 
-            cout << "onMsgB: exit" << endl;
+            cout << "msg: exit" << endl;
             return true;
         }
 
         bool onMsgB(void* buf, size_t len) const {
-            cout << "onMsgB: begin" << endl;
+            cout << "msg: begin" << endl;
             if (buf == nullptr || len < sizeof(MsgB)) {
                 cout << "invalid input message" << endl;
                 return false;
             }
 
-            cout << "onMsgB: end" << endl;
+            cout << "forwarding message to peer begin" << endl;
+            cout << len << endl;
+            cout << "forwarding message to peer end" << endl;
+
+            cout << "msg: end" << endl;
             return true;
         }
     };
@@ -100,6 +110,7 @@ ________________________________REFACTORING_TARGET_AS_BELLOW
 
 ________________________________REFACTORING_BE_TESTED_BY(complicated_test)
 
+#if 0
 
 TYPED_TEST(complicated_test, should_able_to_return_true__on_s1_msg) {
     MsgA msg = {EVENT_A};
@@ -112,3 +123,5 @@ TYPED_TEST(complicated_test, should_able_to_return_false__on_msg_without_enough_
 
     ASSERT_TRUE(this->onMsg(&msg, sizeof(msg)));
 }
+
+#endif

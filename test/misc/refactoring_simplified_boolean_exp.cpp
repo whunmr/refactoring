@@ -30,6 +30,7 @@ struct After {
 
 ________________________________REFACTORING_BE_TESTED_BY(simplified_boolean_expression_test)
 
+#if 0
 
 TYPED_TEST(simplified_boolean_expression_test, should_able_to_return_true__on_s1_msg) {
     Msg msg = {S1AP_INIT_CTXT_SETUP};
@@ -37,3 +38,4 @@ TYPED_TEST(simplified_boolean_expression_test, should_able_to_return_true__on_s1
     ASSERT_TRUE(this->is_s1_ctxt_setup_msg(msg));
 }
 
+#endif
